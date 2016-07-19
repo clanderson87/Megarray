@@ -85,6 +85,51 @@ window.Set = function() {
           callback(element);
         }
       }
+    },
+
+    returnTypes: function(){
+      var result = [];
+
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        if(!result.includes(typeof(element))){
+          result.push(typeof(element));
+        }
+      }
+
+      return result;
+    },
+
+    mergeSort: function()
+    {
+      function merge(left, right)
+      {
+        var result = [];
+    
+        while (left.length && right.length) {
+            if (left[0] <= right[0]) {
+                result.push(left.shift());
+            } else {
+                result.push(right.shift());
+            }
+        }
+    
+        while (left.length)
+            result.push(left.shift());
+    
+        while (right.length)
+            result.push(right.shift());
+    
+        return result
+      }
+      if (this.length < 2)
+          return this;
+  
+      var middle = parseInt(this.length / 2);
+      var left   = this.slice(0, middle);
+      var right  = this.slice(middle, this.length);
+  
+      return merge(left, right);
     }
   } //end Set.prototype
 
