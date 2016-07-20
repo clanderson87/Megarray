@@ -99,7 +99,8 @@ window.Set = function() {
           result.push(1);
         } else {
           var indexToChange = (result.indexOf(element) + 1);
-          var toChangeTo = (result[indexToChange] + 1);
+          console.log("iTC is: ", indexToChange);
+          var toChangeTo = ((result[indexToChange]) + 1);
           result[indexToChange] = toChangeTo;
         }
       }
