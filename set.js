@@ -90,13 +90,19 @@ window.Set = function() {
     returnTypes: function(){
       var result = [];
 
+
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
         if(!result.includes(typeof(element))){
           result.push(typeof(element));
+          console.log("result is: ", result);
+          result.push(1);
+        } else {
+          var indexToChange = (result.indexOf(element) + 1);
+          var toChangeTo = (result[indexToChange] + 1);
+          result[indexToChange] = toChangeTo;
         }
       }
-
       return result;
     },
 
