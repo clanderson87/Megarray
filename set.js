@@ -97,7 +97,7 @@ window.Set = function() {
           console.log("result is: ", result);
           result.push(1);
         } else {
-          var indexToChange = (result.indexOf(element) + 1);
+          var indexToChange = (result.indexOf(typeof(element)) + 1);
           console.log("iTC is: ", indexToChange);
           indexToChange += 1;
           console.log("iTC is now: ", indexToChange);
