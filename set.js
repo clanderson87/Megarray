@@ -89,20 +89,19 @@ window.Set = function() {
 
     returnTypes: function(){
       var result = [];
-      debugger;
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
         if(!result.includes((typeof(element)))){
           result.push(typeof(element));
-          console.log("result is: ", result);
+          console.log("result is: ", result, "element is: ", element);
           result.push(1);
         } else {
-          var indexToChange = (result.indexOf(typeof(element)) + 1);
-          console.log("iTC is: ", indexToChange);
+          var indexToChange = result.indexOf(typeof(element));
+          console.log("iTC is: ", indexToChange, "element is: ", element);
           indexToChange += 1;
           console.log("iTC is now: ", indexToChange);
           var toChangeTo = ((result[indexToChange]) + 1);
-          console.log("toChangeTo is: ", toChangeTo);
+          console.log("toChangeTo is: ", toChangeTo, "element is: ", element);
           result[indexToChange] = toChangeTo;
         }
       }
