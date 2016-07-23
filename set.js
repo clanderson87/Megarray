@@ -87,24 +87,40 @@ window.Set = function() {
       }
     },
 
-    returnTypes: function(){
+    types: function(){
       var result = [];
+
+      //counts instances of types
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
         if(!result.includes((typeof(element)))){
           result.push(typeof(element));
-          console.log("result is: ", result, "element is: ", element);
           result.push(1);
         } else {
           var indexToChange = result.indexOf(typeof(element));
-          console.log("iTC is: ", indexToChange, "element is: ", element);
           indexToChange += 1;
-          console.log("iTC is now: ", indexToChange);
           var toChangeTo = ((result[indexToChange]) + 1);
-          console.log("toChangeTo is: ", toChangeTo, "element is: ", element);
           result[indexToChange] = toChangeTo;
         }
-      }
+      };
+
+      //concatanates strings
+      for (var index = 0; index < result.length; index++) {
+        var element = result[index];
+        var next = result[index+1];
+        if (typeof(element) ==  "string"){
+          element += ": " + next;
+          result[index] = element;
+        }
+      };
+
+      //deletes numbers
+      for (var index = 0; index < result.length; index++) {
+        var element = result[index];
+        if(typeof(element) == "number"){
+          result.splice(result.indexOf(element), 1);
+        }
+      };
       return result;
     },
 
