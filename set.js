@@ -69,6 +69,26 @@ window.Set = function() {
       }
     },
 
+    delTypes: function(){
+      var deleteThis = [];
+      for (var index = 0; index < arguments.length; index++) {
+        var arg = arguments[index];
+        for (var j = 0; j < this.length; j++) {
+          var element = this[j];
+          if(typeof(element) == arg){
+            deleteThis.push(element)
+          }
+        }
+        console.log(this)
+      }
+      console.log(deleteThis);
+
+      for (var i = 0; i < deleteThis.length; i++) {
+        var elm = deleteThis[i];
+        this.splice(this.indexOf(elm), 1);
+      }
+    },
+
     omit: function(value, callback){
       if(callback == null){
         callback = function(elm){
