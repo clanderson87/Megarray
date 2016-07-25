@@ -171,22 +171,36 @@ window.Set = function() {
             }
         }
     
-        while (left.length)
-            result.push(left.shift());
+        while (left.length){
+          result.push(left.shift());
+        }
     
-        while (right.length)
-            result.push(right.shift());
-    
-        return result
+        while (right.length){
+          result.push(right.shift());
+        }
+
+        return result;
       }
-      if (this.length < 2)
-          return this;
-  
+      
+      if (this.length < 2){
+        return this;
+      }
+
       var middle = parseInt(this.length / 2);
       var left   = this.slice(0, middle);
       var right  = this.slice(middle, this.length);
   
-      return merge(left, right);
+      this.nuke();
+      result = merge(left, right);
+      for (var i = 0; i < result.length; i++) {
+        var element = result[i];
+        this.push(element);
+      }
+      return this;
+    },
+
+    nuke: function(){
+      this.splice(0, this.length)
     }
   } //end Set.prototype
 
