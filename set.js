@@ -89,6 +89,19 @@ window.Set = function() {
       }
     },
 
+    rand: function(num){
+      if(num != null){
+        if(num > this.length){
+          num = this.length;
+        }
+        var index = Math.floor(Math.random() * num);
+        return this[index];
+      } else {
+        var index = Math.floor(Math.random() * this.length);
+        return this[index];
+      }
+    },
+
     omit: function(value, callback){
       if(callback == null){
         callback = function(elm){
