@@ -224,7 +224,6 @@ window.Set = function() {
         num = this.length;
       }
       var index = Math.floor(Math.random() * this.length);
-      console.log(index);
       var returned = new Set();
       var split = Math.ceil(num/2);
       while(returned.length < num){
@@ -232,12 +231,21 @@ window.Set = function() {
           returned.push(this[index - split]);
         }
         else if((index - split) > this.length){
-          console.log(this.indexOf(returned[0]));
           returned.unshift(this[this.indexOf(returned[0]) - 1]);
         }
         split--;
       }
       return returned;
+    },
+
+    safe: new Set(),
+
+    saftey: function(){
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        this.safe.push(element);
+      }
+      return this;
     },
 
     types: function(){
@@ -272,6 +280,16 @@ window.Set = function() {
         }
       };
       return result;
+    },
+
+    unique: function(){
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        while(this.indexOf(element) != this.lastIndexOf(element)){
+          this.splice(this.lastIndexOf(element), 1);
+        }
+      }
+      return this;
     }
 
   } //end Set.prototype
