@@ -46,28 +46,30 @@ window.Set = function() {
 
     addAll: function(){
       for (var i = 0 ; i < arguments.length ; i++){
-          this.add(arguments[ i ]);
+        this.add(arguments[ i ]);
       }
       return( this );
     },
 
     del: function(value){
-      if(this.includes(value) == true){
+      while(this.includes(value)){
         this.splice(this.indexOf(value), 1);
-      }
+      } 
+      return this;
     },
 
     delAll: function(){
       for (var index = 0; index < arguments.length; index++) {
         var element = arguments[index];
-        if(this.includes(element) == true){
+        while(this.includes(element)){
           this.splice(this.indexOf(element), 1)
         }
       }
+      return this;
     },
 
     delTypes: function(){
-      var deleteThis = [];
+      var deleteThis = new Set();
       for (var index = 0; index < arguments.length; index++) {
         var arg = arguments[index];
         for (var j = 0; j < this.length; j++) {
@@ -81,112 +83,49 @@ window.Set = function() {
         var elm = deleteThis[i];
         this.splice(this.indexOf(elm), 1);
       }
+      return this;
     },
 
-    rand: function(num){
-      if(num != null){
-        if(num > this.length){
-          num = this.length;
-        }
-        var index = Math.floor(Math.random() * num);
-        return this[index];
-      } else {
-        var index = Math.floor(Math.random() * this.length);
-        return this[index];
-      }
-    },
-
-    randSubset: function(num){
-      if (num == null){
-        num = 3;
-      }
-      else if (num > this.length) {
-        num = this.length;
-      }
-      var index = Math.floor(Math.random() * this.length);
-      console.log(index);
-      var returned = [];
-      var split = Math.ceil(num/2);
-      while(returned.length < num){
-        if(!((index - split) < 0) && !((index - split) > this.length - 1)){
-          returned.push(this[index - split]);
-        }
-        else if((index - split) > this.length){
-          console.log(this.indexOf(returned[0]));
-          returned.unshift(this[this.indexOf(returned[0]) - 1]);
-        }
-        split--;
-      }
-      return returned;
-    },
-
-    omit: function(value, callback){
-      if(callback == null){
-        callback = function(elm){
-          console.log(elm);
-        }
-      }
+    getObjByPropValue: function(prop, value){
+      var result = new Set();
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
-        if(value == element){
-          continue;
-        }
-        else
-        {
-          callback(element);
-        }
-      }
-    },
-
-    omitTypes: function(typesArray, callback){
-      if(callback == null){
-        callback = function(e){
-          console.log(e)
+        if(typeof(element) == "object"){
+          if(element.hasOwnProperty(prop)){
+            if (element[prop] == value){
+              result.push(element);
+            }
+          }
         }
       }
-      for (var i = 0; i < this.length; i++) {
-        var element = this[i];
-        if(typesArray.includes(typeof(element))){
-          continue;
-        }
-        else {
-          callback(element);
-        }
-      }
-    },
-
-    types: function(){
-      var result = [];
-      //counts instances of types
-      for (var index = 0; index < this.length; index++) {
-        var element = this[index];
-        if(!result.includes((typeof(element)))){
-          result.push(typeof(element));
-          result.push(1);
-        } else {
-          var indexToChange = result.indexOf(typeof(element));
-          indexToChange += 1;
-          var toChangeTo = ((result[indexToChange]) + 1);
-          result[indexToChange] = toChangeTo;
-        }
-      };
-      //concatanates strings
-      for (var index = 0; index < result.length; index++) {
-        var element = result[index];
-        var next = result[index+1];
-        if (typeof(element) ==  "string"){
-          element += ": " + next;
-          result[index] = element;
-        }
-      };
-      //deletes numbers
-      for (var index = 0; index < result.length; index++) {
-        var element = result[index];
-        if(typeof(element) == "number"){
-          result.splice(result.indexOf(element), 1);
-        }
-      };
       return result;
+    },
+
+    limit: function(num){
+      while(this.length > num){
+        this.pop();
+      }
+      return this;
+    },
+
+    limitToTypes: function(){
+      var result = new Set();
+      if(arguments.length == 0){
+        console.log("please specify a data type");
+        return this;
+      }
+      for (var a = 0; a < arguments.length; a++) {
+        var arg = arguments[a];
+        for (var i = 0; i < this.length; i++) {
+          var element = this[i];
+          if(typeof(element) == arg){
+            result.push(element);
+          }
+        } 
+      }
+      this.nuke();
+      this.addAll(result);
+      return this;
     },
 
     mergeSort: function()
@@ -229,27 +168,130 @@ window.Set = function() {
       return this;
     },
 
-    limit: function(num){
-      while(this.length > num){
-        this.pop();
+    omit: function(value, callback){
+      if(callback == null){
+        callback = function(elm){
+          console.log(elm);
+        }
+      }
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        if(value == element){
+          continue;
+        }
+        else
+        {
+          callback(element);
+        }
+      }
+    },
+
+    omitTypes: function(typesArray, callback){
+      if(callback == null){
+        callback = function(e){
+          console.log(e)
+        }
+      }
+      for (var i = 0; i < this.length; i++) {
+        var element = this[i];
+        if(typesArray.includes(typeof(element))){
+          continue;
+        }
+        else {
+          callback(element);
+        }
+      }
+    },
+
+    rand: function(num){
+      if(num != null){
+        if(num > this.length){
+          num = this.length;
+        }
+        var index = Math.floor(Math.random() * num);
+        return this[index];
+      } else {
+        var index = Math.floor(Math.random() * this.length);
+        return this[index];
+      }
+    },
+
+    randSubset: function(num){
+      if (num == null){
+        num = 3;
+      }
+      else if (num > this.length) {
+        num = this.length;
+      }
+      var index = Math.floor(Math.random() * this.length);
+      var returned = new Set();
+      var split = Math.ceil(num/2);
+      while(returned.length < num){
+        if(!((index - split) < 0) && !((index - split) > this.length - 1)){
+          returned.push(this[index - split]);
+        }
+        else if((index - split) > this.length){
+          returned.unshift(this[this.indexOf(returned[0]) - 1]);
+        }
+        split--;
+      }
+      return returned;
+    },
+
+    safe: new Set(),
+
+    saftey: function(){
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        this.safe.push(element);
       }
       return this;
     },
 
-    getObjByPropValue: function(prop, value){
-      var result = [];
+    types: function(){
+      var result = new Set();
+      //counts instances of types
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
-        if(typeof(element) == "object"){
-          if(element.hasOwnProperty(prop)){
-            if (element[prop] == value){
-              result.push(element);
-            }
-          }
+        if(!result.includes((typeof(element)))){
+          result.push(typeof(element));
+          result.push(1);
+        } else {
+          var indexToChange = result.indexOf(typeof(element));
+          indexToChange += 1;
+          var toChangeTo = ((result[indexToChange]) + 1);
+          result[indexToChange] = toChangeTo;
+        }
+      };
+      //concatanates strings
+      for (var index = 0; index < result.length; index++) {
+        var element = result[index];
+        var next = result[index+1];
+        if (typeof(element) ==  "string"){
+          element += ": " + next;
+          result[index] = element;
+        }
+      };
+      //deletes numbers
+      for (var index = 0; index < result.length; index++) {
+        var element = result[index];
+        if(typeof(element) == "number"){
+          result.splice(result.indexOf(element), 1);
+        }
+      };
+      return result;
+    },
+
+    unique: function(){
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        while(this.indexOf(element) != this.lastIndexOf(element)){
+          this.splice(this.lastIndexOf(element), 1);
         }
       }
-      return result;
+      return this;
     }
+
   } //end Set.prototype
 
   return(Set);
