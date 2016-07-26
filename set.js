@@ -138,6 +138,23 @@ window.Set = function() {
       }
     },
 
+    omitTypes: function(typesArray, callback){
+      if(callback == null){
+        callback = function(e){
+          console.log(e)
+        }
+      }
+      for (var i = 0; i < this.length; i++) {
+        var element = this[i];
+        if(typesArray.includes(typeof(element))){
+          continue;
+        }
+        else {
+          callback(element);
+        }
+      }
+    },
+
     types: function(){
       var result = [];
       //counts instances of types
