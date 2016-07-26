@@ -83,110 +83,39 @@ window.Set = function() {
       }
     },
 
-    rand: function(num){
-      if(num != null){
-        if(num > this.length){
-          num = this.length;
-        }
-        var index = Math.floor(Math.random() * num);
-        return this[index];
-      } else {
-        var index = Math.floor(Math.random() * this.length);
-        return this[index];
-      }
-    },
-
-    randSubset: function(num){
-      if (num == null){
-        num = 3;
-      }
-      else if (num > this.length) {
-        num = this.length;
-      }
-      var index = Math.floor(Math.random() * this.length);
-      console.log(index);
-      var returned = [];
-      var split = Math.ceil(num/2);
-      while(returned.length < num){
-        if(!((index - split) < 0) && !((index - split) > this.length - 1)){
-          returned.push(this[index - split]);
-        }
-        else if((index - split) > this.length){
-          console.log(this.indexOf(returned[0]));
-          returned.unshift(this[this.indexOf(returned[0]) - 1]);
-        }
-        split--;
-      }
-      return returned;
-    },
-
-    omit: function(value, callback){
-      if(callback == null){
-        callback = function(elm){
-          console.log(elm);
-        }
-      }
+    getObjByPropValue: function(prop, value){
+      var result = [];
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
-        if(value == element){
-          continue;
-        }
-        else
-        {
-          callback(element);
+        if(typeof(element) == "object"){
+          if(element.hasOwnProperty(prop)){
+            if (element[prop] == value){
+              result.push(element);
+            }
+          }
         }
       }
+      return result;
     },
 
-    omitTypes: function(typesArray, callback){
-      if(callback == null){
-        callback = function(e){
-          console.log(e)
-        }
+    limit: function(num){
+      while(this.length > num){
+        this.pop();
       }
+      return this;
+    },
+
+    limitToType: function(type){
+      var result = [];
       for (var i = 0; i < this.length; i++) {
         var element = this[i];
-        if(typesArray.includes(typeof(element))){
-          continue;
-        }
-        else {
-          callback(element);
+        if(typeof(element) == type){
+          result.push(element);
         }
       }
-    },
-
-    types: function(){
-      var result = [];
-      //counts instances of types
-      for (var index = 0; index < this.length; index++) {
-        var element = this[index];
-        if(!result.includes((typeof(element)))){
-          result.push(typeof(element));
-          result.push(1);
-        } else {
-          var indexToChange = result.indexOf(typeof(element));
-          indexToChange += 1;
-          var toChangeTo = ((result[indexToChange]) + 1);
-          result[indexToChange] = toChangeTo;
-        }
-      };
-      //concatanates strings
-      for (var index = 0; index < result.length; index++) {
-        var element = result[index];
-        var next = result[index+1];
-        if (typeof(element) ==  "string"){
-          element += ": " + next;
-          result[index] = element;
-        }
-      };
-      //deletes numbers
-      for (var index = 0; index < result.length; index++) {
-        var element = result[index];
-        if(typeof(element) == "number"){
-          result.splice(result.indexOf(element), 1);
-        }
-      };
-      return result;
+      this.nuke();
+      this.addAll(result);
+      return this;
     },
 
     mergeSort: function()
@@ -229,27 +158,112 @@ window.Set = function() {
       return this;
     },
 
-    limit: function(num){
-      while(this.length > num){
-        this.pop();
-      }
-      return this;
-    },
-
-    getObjByPropValue: function(prop, value){
-      var result = [];
-      for (var index = 0; index < this.length; index++) {
-        var element = this[index];
-        if(typeof(element) == "object"){
-          if(element.hasOwnProperty(prop)){
-            if (element[prop] == value){
-              result.push(element);
-            }
-          }
+    omit: function(value, callback){
+      if(callback == null){
+        callback = function(elm){
+          console.log(elm);
         }
       }
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        if(value == element){
+          continue;
+        }
+        else
+        {
+          callback(element);
+        }
+      }
+    },
+
+    omitTypes: function(typesArray, callback){
+      if(callback == null){
+        callback = function(e){
+          console.log(e)
+        }
+      }
+      for (var i = 0; i < this.length; i++) {
+        var element = this[i];
+        if(typesArray.includes(typeof(element))){
+          continue;
+        }
+        else {
+          callback(element);
+        }
+      }
+    },
+
+    rand: function(num){
+      if(num != null){
+        if(num > this.length){
+          num = this.length;
+        }
+        var index = Math.floor(Math.random() * num);
+        return this[index];
+      } else {
+        var index = Math.floor(Math.random() * this.length);
+        return this[index];
+      }
+    },
+
+    randSubset: function(num){
+      if (num == null){
+        num = 3;
+      }
+      else if (num > this.length) {
+        num = this.length;
+      }
+      var index = Math.floor(Math.random() * this.length);
+      console.log(index);
+      var returned = [];
+      var split = Math.ceil(num/2);
+      while(returned.length < num){
+        if(!((index - split) < 0) && !((index - split) > this.length - 1)){
+          returned.push(this[index - split]);
+        }
+        else if((index - split) > this.length){
+          console.log(this.indexOf(returned[0]));
+          returned.unshift(this[this.indexOf(returned[0]) - 1]);
+        }
+        split--;
+      }
+      return returned;
+    },
+
+    types: function(){
+      var result = [];
+      //counts instances of types
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        if(!result.includes((typeof(element)))){
+          result.push(typeof(element));
+          result.push(1);
+        } else {
+          var indexToChange = result.indexOf(typeof(element));
+          indexToChange += 1;
+          var toChangeTo = ((result[indexToChange]) + 1);
+          result[indexToChange] = toChangeTo;
+        }
+      };
+      //concatanates strings
+      for (var index = 0; index < result.length; index++) {
+        var element = result[index];
+        var next = result[index+1];
+        if (typeof(element) ==  "string"){
+          element += ": " + next;
+          result[index] = element;
+        }
+      };
+      //deletes numbers
+      for (var index = 0; index < result.length; index++) {
+        var element = result[index];
+        if(typeof(element) == "number"){
+          result.splice(result.indexOf(element), 1);
+        }
+      };
       return result;
     }
+
   } //end Set.prototype
 
   return(Set);
