@@ -108,13 +108,20 @@ window.Set = function() {
       return this;
     },
 
-    limitToType: function(type){
+    limitToTypes: function(){
       var result = new Set();
-      for (var i = 0; i < this.length; i++) {
-        var element = this[i];
-        if(typeof(element) == type){
-          result.push(element);
-        }
+      if(arguments.length == 0){
+        console.log("please specify a data type");
+        return this;
+      }
+      for (var a = 0; a < arguments.length; a++) {
+        var arg = arguments[a];
+        for (var i = 0; i < this.length; i++) {
+          var element = this[i];
+          if(typeof(element) == arg){
+            result.push(element);
+          }
+        } 
       }
       this.nuke();
       this.addAll(result);
