@@ -234,8 +234,22 @@ window.Set = function() {
         this.pop();
       }
       return this;
-    }
+    },
 
+    getObjByPropValue: function(prop, value){
+      var result = [];
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        if(typeof(element) == "object"){
+          if(element.hasOwnProperty(prop)){
+            if (element[prop] == value){
+              result.push(element);
+            }
+          }
+        }
+      }
+      return result;
+    }
   } //end Set.prototype
 
   return(Set);
