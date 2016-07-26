@@ -61,7 +61,7 @@ window.Set = function() {
     delAll: function(){
       for (var index = 0; index < arguments.length; index++) {
         var element = arguments[index];
-        if(this.includes(element) == true){
+        while(this.includes(element)){
           this.splice(this.indexOf(element), 1)
         }
       }
