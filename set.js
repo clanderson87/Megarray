@@ -1,7 +1,4 @@
 window.Set = function() {
-
-  //constructing sets
-
   function Set() {
     //building off base JS Array class
     var set = Object.create(Array.prototype);
@@ -79,10 +76,7 @@ window.Set = function() {
             deleteThis.push(element)
           }
         }
-        console.log(this)
       }
-      console.log(deleteThis);
-
       for (var i = 0; i < deleteThis.length; i++) {
         var elm = deleteThis[i];
         this.splice(this.indexOf(elm), 1);
@@ -122,7 +116,6 @@ window.Set = function() {
 
     types: function(){
       var result = [];
-
       //counts instances of types
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
@@ -136,7 +129,6 @@ window.Set = function() {
           result[indexToChange] = toChangeTo;
         }
       };
-
       //concatanates strings
       for (var index = 0; index < result.length; index++) {
         var element = result[index];
@@ -146,7 +138,6 @@ window.Set = function() {
           result[index] = element;
         }
       };
-
       //deletes numbers
       for (var index = 0; index < result.length; index++) {
         var element = result[index];
@@ -162,7 +153,6 @@ window.Set = function() {
       function merge(left, right)
       {
         var result = [];
-    
         while (left.length && right.length) {
             if (left[0] <= right[0]) {
                 result.push(left.shift());
@@ -170,26 +160,20 @@ window.Set = function() {
                 result.push(right.shift());
             }
         }
-    
         while (left.length){
           result.push(left.shift());
         }
-    
         while (right.length){
           result.push(right.shift());
         }
-
         return result;
       }
-      
       if (this.length < 2){
         return this;
       }
-
       var middle = parseInt(this.length / 2);
       var left   = this.slice(0, middle);
       var right  = this.slice(middle, this.length);
-  
       this.nuke();
       result = merge(left, right);
       for (var i = 0; i < result.length; i++) {
@@ -200,8 +184,17 @@ window.Set = function() {
     },
 
     nuke: function(){
-      this.splice(0, this.length)
+      this.splice(0, this.length);
+      return this;
+    },
+
+    limit: function(num){
+      while(this.length > num){
+        this.pop();
+      }
+      return this;
     }
+
   } //end Set.prototype
 
   return(Set);
