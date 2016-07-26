@@ -46,15 +46,16 @@ window.Set = function() {
 
     addAll: function(){
       for (var i = 0 ; i < arguments.length ; i++){
-          this.add(arguments[ i ]);
+        this.add(arguments[ i ]);
       }
       return( this );
     },
 
     del: function(value){
-      if(this.includes(value) == true){
+      while(this.includes(value)){
         this.splice(this.indexOf(value), 1);
-      }
+      } 
+      return this;
     },
 
     delAll: function(){
@@ -64,10 +65,11 @@ window.Set = function() {
           this.splice(this.indexOf(element), 1)
         }
       }
+      return this;
     },
 
     delTypes: function(){
-      var deleteThis = [];
+      var deleteThis = new Set();
       for (var index = 0; index < arguments.length; index++) {
         var arg = arguments[index];
         for (var j = 0; j < this.length; j++) {
@@ -81,10 +83,11 @@ window.Set = function() {
         var elm = deleteThis[i];
         this.splice(this.indexOf(elm), 1);
       }
+      return this;
     },
 
     getObjByPropValue: function(prop, value){
-      var result = [];
+      var result = new Set();
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
         if(typeof(element) == "object"){
@@ -106,7 +109,7 @@ window.Set = function() {
     },
 
     limitToType: function(type){
-      var result = [];
+      var result = new Set();
       for (var i = 0; i < this.length; i++) {
         var element = this[i];
         if(typeof(element) == type){
@@ -215,7 +218,7 @@ window.Set = function() {
       }
       var index = Math.floor(Math.random() * this.length);
       console.log(index);
-      var returned = [];
+      var returned = new Set();
       var split = Math.ceil(num/2);
       while(returned.length < num){
         if(!((index - split) < 0) && !((index - split) > this.length - 1)){
@@ -231,7 +234,7 @@ window.Set = function() {
     },
 
     types: function(){
-      var result = [];
+      var result = new Set();
       //counts instances of types
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
