@@ -96,6 +96,30 @@ window.Set = function() {
       }
     },
 
+    randSubset: function(num){
+      if (num == null){
+        num = 3;
+      }
+      else if (num > this.length) {
+        num = this.length;
+      }
+      var index = Math.floor(Math.random() * this.length);
+      console.log(index);
+      var returned = [];
+      var split = Math.ceil(num/2);
+      while(returned.length < num){
+        if(!((index - split) < 0) && !((index - split) > this.length - 1)){
+          returned.push(this[index - split]);
+        }
+        else if((index - split) > this.length){
+          console.log(this.indexOf(returned[0]));
+          returned.unshift(this[this.indexOf(returned[0]) - 1]);
+        }
+        split--;
+      }
+      return returned;
+    },
+
     omit: function(value, callback){
       if(callback == null){
         callback = function(elm){
