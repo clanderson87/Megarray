@@ -1,64 +1,43 @@
-window.Set = function() {
-  function Set() {
+window.Megarray = function() {
+  function Megarray() {
     //building off base JS Array class
-    var set = Object.create(Array.prototype);
-    set = (Array.apply(set, arguments) || set);
-    Set.InjectMethods(set);
-    return (set);
+    var Megarray = Object.create(Array.prototype);
+    Megarray = (Array.apply(Megarray, arguments) || Megarray);
+    Megarray.InjectMethods(Megarray);
+    return (Megarray);
   }
 
-  Set.InjectMethods = function(set){
-    for (var method in Set.prototype){
-      if(Set.prototype.hasOwnProperty(method)){
-        set[method] = Set.prototype[method];
+  Megarray.InjectMethods = function(Megarray){
+    for (var method in Megarray.prototype){
+      if(Megarray.prototype.hasOwnProperty(method)){
+        Megarray[method] = Megarray.prototype[method];
       }
     }
-    return(set);
+    return(Megarray);
   }
   
-  Set.fromArray = function(array){
-    var set = Set.apply( null, array );
-    return(set);
+  Megarray.fromArray = function(array){
+    var Megarray = Megarray.apply( null, array );
+    return(Megarray);
   };
 
-  console.log("Set construction occurred!");
+  console.log("Megarray construction occurred!");
 
-  Set.isArray = function( value ){
+  Megarray.isArray = function( value ){
     var stringValue = Object.prototype.toString.call( value );
     return( stringValue.toLowerCase() === "[object array]" );
   };
 
-  Set.prototype = {
-    add: function(value){
-      if(Set.isArray(value)){
-        for (var index = 0; index < value.length; index++) {
-          var element = value[index];
-          Array.prototype.push.call(this, element);
-        }
-      }
-      else
-      {
-        Array.prototype.push.call(this, value);
-      }
+  Megarray.prototype = {
 
-      return(this);
-    },
-
-    addAll: function(){
+    add: function(){
       for (var i = 0 ; i < arguments.length ; i++){
-        this.add(arguments[ i ]);
+        this.push(arguments[ i ]);
       }
       return( this );
     },
 
-    del: function(value){
-      while(this.includes(value)){
-        this.splice(this.indexOf(value), 1);
-      } 
-      return this;
-    },
-
-    delAll: function(){
+    del: function(){
       for (var index = 0; index < arguments.length; index++) {
         var element = arguments[index];
         while(this.includes(element)){
@@ -69,7 +48,7 @@ window.Set = function() {
     },
 
     delTypes: function(){
-      var deleteThis = new Set();
+      var deleteThis = new Megarray();
       for (var index = 0; index < arguments.length; index++) {
         var arg = arguments[index];
         for (var j = 0; j < this.length; j++) {
@@ -87,7 +66,7 @@ window.Set = function() {
     },
 
     getObjByPropValue: function(prop, value){
-      var result = new Set();
+      var result = new Megarray();
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
         if(typeof(element) == "object"){
@@ -109,7 +88,7 @@ window.Set = function() {
     },
 
     limitToTypes: function(){
-      var result = new Set();
+      var result = new Megarray();
       if(arguments.length == 0){
         console.log("please specify a data type");
         return this;
@@ -216,7 +195,7 @@ window.Set = function() {
       }
     },
 
-    randSubset: function(num){
+    randSubMegarray: function(num){
       if (num == null){
         num = 3;
       }
@@ -224,7 +203,7 @@ window.Set = function() {
         num = this.length;
       }
       var index = Math.floor(Math.random() * this.length);
-      var returned = new Set();
+      var returned = new Megarray();
       var split = Math.ceil(num/2);
       while(returned.length < num){
         if(!((index - split) < 0) && !((index - split) > this.length - 1)){
@@ -238,18 +217,31 @@ window.Set = function() {
       return returned;
     },
 
-    safe: new Set(),
-
-    saftey: function(){
-      for (var index = 0; index < this.length; index++) {
-        var element = this[index];
-        this.safe.push(element);
+    revert: function(){
+      this.nuke();
+      for (var index = 0; index < this.safe.length; index++) {
+        var element = this.safe[index];
+        this.push(element);
       }
       return this;
     },
 
+    safe: new Megarray(),
+
+    safety: function(){
+      if(this.safe.length != 0){
+        this.safe.splice(0, this.safe.length);
+      }
+      for (var index = 0; index < this.length; index++) {
+        var element = this[index];
+        this.safe.push(element);
+      }
+      console.log(this.safe);
+      return this;
+    },
+
     types: function(){
-      var result = new Set();
+      var result = new Megarray();
       //counts instances of types
       for (var index = 0; index < this.length; index++) {
         var element = this[index];
@@ -279,7 +271,8 @@ window.Set = function() {
           result.splice(result.indexOf(element), 1);
         }
       };
-      return result;
+      console.log(result.join(', '));
+      return this;
     },
 
     unique: function(){
@@ -292,9 +285,9 @@ window.Set = function() {
       return this;
     }
 
-  } //end Set.prototype
+  } //end Megarray.prototype
 
-  return(Set);
+  return(Megarray);
 
 }();
 
