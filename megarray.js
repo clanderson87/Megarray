@@ -1,24 +1,30 @@
 window.Megarray = function() {
   function Megarray() {
     //building off base JS Array class
-    var Megarray = Object.create(Array.prototype);
-    Megarray = (Array.apply(Megarray, arguments) || Megarray);
-    Megarray.InjectMethods(Megarray);
-    return (Megarray);
+    var megarray = Object.create(Array.prototype);
+    //calls the Array constructor. Megarray becomes this, arguments are passed to this.
+    megarray = (Array.apply(megarray, arguments) || megarray);
+    Megarray.InjectMethods(megarray);
+    return (megarray);
   }
 
-  Megarray.InjectMethods = function(Megarray){
+  Megarray.InjectMethods = function(megarray){
     for (var method in Megarray.prototype){
+      //if method is local
       if(Megarray.prototype.hasOwnProperty(method)){
-        Megarray[method] = Megarray.prototype[method];
+        //adds method to Megarray
+        megarray[method] = Megarray.prototype[method];
       }
     }
-    return(Megarray);
+    //returns the megarray with methods injected
+    return(megarray);
   }
   
   Megarray.fromArray = function(array){
-    var Megarray = Megarray.apply( null, array );
-    return(Megarray);
+    //creates new Megarray from the array
+    var megarray = Megarray.apply( null, array );
+    //returns the Megarray
+    return(megarray);
   };
 
   console.log("Megarray construction occurred!");
