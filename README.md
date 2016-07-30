@@ -50,8 +50,11 @@ Megarray is a small object built on top of the Array Prototype - NOT EXTENDED - 
 14. Megarray.safety();
   * saves a copy of the contents of the Megarray at that current point. Since Megarray methods actually modify the Megarray (instead of returning a seperate array), Megarray.safety() creates a 'safe state' accessable by Megarray.revert().
 
-15. Megarray.types()
+15. Megarray.shuffle();
+  * shuffles the elements within the Megarray.
+
+16. Megarray.types()
   * console.logs a string denoting the types and number of those types.
 
-16. Megarray.unique()
+17. Megarray.unique()
   * returns a filtered Megarray with no duplicates.
