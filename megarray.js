@@ -246,6 +246,17 @@ window.Megarray = function() {
       return this;
     },
 
+     shuffle: function(){
+      var len = this.length, toChange, index;
+      while (len) {
+        index = Math.floor(Math.random() * len--);
+        toChange = this[len];
+        this[len] = this[index];
+        this[index] = toChange;
+      }
+      return this;
+    },
+
     types: function(){
       var result = new Megarray();
       //counts instances of types
