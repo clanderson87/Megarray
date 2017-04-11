@@ -42,7 +42,7 @@ Megarray is a small object built on top of the Array Prototype - NOT EXTENDED - 
   * returns a random index from the Megarray.
 
 12. Megarray.randSubset(subsetLength)
-  * returns a random subset from within the Megarray. If a number is specified, then the returned subset is that length. In not, default is 3.
+  * returns a random subset from within the Megarray. If a number is specified, then the returned subset is that length. If not, default is 3.
 
 13. Megarray.revert()
   * reverts the Megarray back to the saved state made with Megarray.safety().
